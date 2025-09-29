@@ -99,6 +99,19 @@ sudo netstat -tuln | grep ':80'
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     include fastcgi_params;
    }
+   
+    # Deny .htaccess files
+    location ~ /\.ht {
+        deny all;
+    }
+
+    # Optional: cache static files
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|svg)$ {
+        expires max;
+        log_not_found off;
+    }
+    }
+
 
 
 
