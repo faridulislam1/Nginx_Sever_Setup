@@ -69,21 +69,43 @@ sudo netstat -tuln | grep ':80'
 2. Add the following configuration to set up Nginx as a reverse proxy for your Node.js app:
 
    ```nginx
-   server {
-       listen 80;
+  
+server {
+    listen 8000;
 
-       server_name your-domain.com;
 
-       location / {
-           proxy_pass http://localhost:3000;
-           proxy_http_version 1.1;
-           proxy_set_header Upgrade $http_upgrade;
-           proxy_set_header Connection 'upgrade';
-           proxy_set_header Host $host;
-           proxy_cache_bypass $http_upgrade;
-       }
-   }
-   ```
+    root /home/farid/E-commerce-_Laravel/public;
+    index index.php index.html index.htm;
+
+    access_log /var/log/nginx/ecommerce_laravel_access.log;
+    error_log /var/log/nginx/ecommerce_laravel_error.log;
+
+
+    # Handle requests
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # PHP processing
+    location ~ \.php$ {
+    include snippets/fastcgi-php.conf;
+    fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+}
+
+
+    # Deny .htaccess files
+    location ~ /\.ht {
+        deny all;
+    }
+
+    # Optional: cache static files
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|svg)$ {
+        expires max;
+        log_not_found off;
+    }
+}
 
    Replace `your-domain.com` with your domain or server's IP address and `3000` with the port your Node.js app is running on.
 
