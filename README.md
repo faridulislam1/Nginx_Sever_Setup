@@ -70,11 +70,14 @@ sudo netstat -tuln | grep ':80'
 
    ```nginx
    
-server 
 
-{
 
-    listen 8000;
+
+
+     server 
+
+     {
+     listen 8000;
 
 
     root /home/farid/E-commerce-_Laravel/public;
@@ -95,7 +98,9 @@ server
     fastcgi_pass unix:/run/php/php8.3-fpm.sock;
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
     include fastcgi_params;
-}
+   }
+
+
 
 
   
