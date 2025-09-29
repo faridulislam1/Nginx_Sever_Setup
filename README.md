@@ -69,8 +69,11 @@ sudo netstat -tuln | grep ':80'
 2. Add the following configuration to set up Nginx as a reverse proxy for your Node.js app:
 
    ```nginx
-  
-server {
+   
+server 
+
+{
+
     listen 8000;
 
 
@@ -95,17 +98,7 @@ server {
 }
 
 
-    # Deny .htaccess files
-    location ~ /\.ht {
-        deny all;
-    }
-
-    # Optional: cache static files
-    location ~* \.(jpg|jpeg|png|gif|ico|css|js|woff|woff2|ttf|svg)$ {
-        expires max;
-        log_not_found off;
-    }
-}
+  
 
    Replace `your-domain.com` with your domain or server's IP address and `3000` with the port your Node.js app is running on.
 
